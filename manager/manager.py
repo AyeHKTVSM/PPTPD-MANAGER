@@ -19,7 +19,7 @@ def main():
             "2": check_vpn_users,
             "3": show_logged_in_users,
             "4": edit_vpn_users,
-            "5": check_login_history,
+            "5": check_history,
             "6": check_individual_login_history,
             "7": exit_program
         }
@@ -54,7 +54,7 @@ def edit_vpn_users():
     subprocess.run("nano /etc/pptp-vpn-manager/chap-secrets", shell=True)
 
 
-def check_login_history():
+def check_history():
     subprocess.run("last | grep ppp", shell=True)
 
 
