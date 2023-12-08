@@ -1,10 +1,9 @@
-import getpass
 import random
-import subprocess
 import string
+import subprocess
 
-userlist = []
-autopassword = 1  # Force auto-generation of password
+display_users = []
+auto_generation = 1  # Force auto-generation of password
 
 
 def clear():
@@ -12,8 +11,8 @@ def clear():
 
 
 def create():
-    global userlist
-    global autopassword
+    global display_users
+    global auto_generation
 
     name = generate_username()
     password = generate_password()
@@ -26,23 +25,23 @@ def create():
         print(f"An error occurred: {e}")
         return
 
-    userlist.append(name)
-    userlist.append(password)
+    display_users.append(name)
+    display_users.append(password)
 
     clear()
 
 
 def success():
-    global userlist
-    global autopassword
+    global display_users
+    global auto_generation
 
-    if not userlist:
+    if not display_users:
         print("No users were added.")
         return
 
     print("User Added Successfully!")
     print("Username and Auto Generated Password Are:")
-    print(userlist[-2:])  # Display the last added user's credentials
+    print(display_users[-2:])  # Display the last added user's credentials
 
 
 def generate_username():
