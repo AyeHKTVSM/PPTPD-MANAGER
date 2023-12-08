@@ -12,7 +12,7 @@ def clear():
     subprocess.run("clear", shell=True)
 
 
-def add_user():
+def create():
     global userlist
     global count
     global autopassword
@@ -102,6 +102,6 @@ clear()
 
 while count < target_users_to_add:
     log_down()
-    add_user()
+    create()
 
 success()
