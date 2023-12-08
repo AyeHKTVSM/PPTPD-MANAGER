@@ -51,20 +51,16 @@ def generate_username():
 
 
 def generate_password():
-    alphabet = string.ascii_lowercase
+    alphabet = string.ascii_letters + string.digits  # Ensure the alphabet includes letters and digits
     pw_length = 8
     my_pw = ""
 
     while True:
         my_pw = ''.join(random.choice(alphabet) for i in range(pw_length))
 
-        if not any(char.isupper() for char in my_pw):
-            continue
-
-        if not any(char.isdigit() for char in my_pw):
-            continue
-
-        break
+        # Ensure the password contains at least one uppercase letter and one digit
+        if any(char.isupper() for char in my_pw) and any(char.isdigit() for char in my_pw):
+            break
 
     return my_pw
 
