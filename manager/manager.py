@@ -15,8 +15,8 @@ def main():
         select = input("Please select the number: ")
 
         actions = {
-            "1": add_vpn_users,
-            "2": check_vpn_users,
+            "1": create,
+            "2": checking,
             "3": show_logged_in_users,
             "4": edit_vpn_users,
             "5": check_history,
@@ -38,12 +38,12 @@ def clear_screen():
     subprocess.run("clear", shell=True)
 
 
-def add_vpn_users():
-    subprocess.run(["python3", "/etc/pptp-vpn-manager/adduser"])
+def create():
+    subprocess.run(["python3", "/etc/manager/create"])
 
 
-def check_vpn_users():
-    subprocess.run(["python3", "/etc/pptp-vpn-manager/checkuser"])
+def checking():
+    subprocess.run(["python3", "/etc/manager/checking"])
 
 
 def show_logged_in_users():
@@ -51,7 +51,7 @@ def show_logged_in_users():
 
 
 def edit_vpn_users():
-    subprocess.run("nano /etc/pptp-vpn-manager/chap-secrets", shell=True)
+    subprocess.run("nano /etc/manager/chap-secrets", shell=True)
 
 
 def check_history():
@@ -59,7 +59,7 @@ def check_history():
 
 
 def check_individual_login_history():
-    subprocess.run(["python3", "/etc/pptp-vpn-manager/loginhistory"])
+    subprocess.run(["python3", "/etc/manager/history"])
 
 
 def exit_program():
