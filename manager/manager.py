@@ -69,7 +69,6 @@ def individual_history():
     subprocess.run(["python3", "/etc/manager/history.py"])
 
 def exit_program():
-    print("Exiting the VPN Manager. Goodbye!")
     exit()
 
 clear_screen()
