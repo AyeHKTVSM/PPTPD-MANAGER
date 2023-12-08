@@ -4,12 +4,12 @@ import subprocess
 def main():
     while True:
         print("""
-            1. Add VPN Users
-            2. Check VPN Users
-            3. Show Logged in VPN Users
-            4. Edit VPN Users
-            5. Check VPN Users Login History
-            6. Check Individual VPN Users Login History
+            1. Create Account
+            2. Check Account
+            3. Currently Online
+            4. Edit Account
+            5. Login History
+            6. Check Individual Account History
             7. Exit
         """)
         select = input("Please select the number: ")
