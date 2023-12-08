@@ -1,11 +1,10 @@
-import subprocess
-import sys
 import getpass
 import random
+import subprocess
+import string
 
-count = 0
 userlist = []
-autopassword = 0
+autopassword = 1  # Force auto-generation of password
 
 
 def clear():
@@ -14,94 +13,62 @@ def clear():
 
 def create():
     global userlist
-    global count
     global autopassword
+
+    name = generate_username()
+    password = generate_password()
 
     command = f"echo '{name}             pptpd             {password}        *' >> /etc/ppp/chap-secrets"
-    subprocess.run(command, shell=True)
+
+    try:
+        subprocess.run(command, shell=True, check=True)  # Check if the command runs without errors
+    except subprocess.CalledProcessError as e:
+        print(f"An error occurred: {e}")
+        return
+
     userlist.append(name)
+    userlist.append(password)
 
-    if autopassword == 1:
-        userlist.append(password)
-
-    count += 1
     clear()
-
-
-def log_down():
-    global name
-    global password
-    global autopassword
-
-    print(f"Adding user {count + 1} of {target_users_to_add}")
-    name = input("Username:")
-
-    if not name:
-        print("Username cannot be blank, please try again!")
-        log_down()
-
-    if autopassword == 0:
-        password = getpass.getpass('Password (Press Enter to Auto Generate Password):')
-
-    if autopassword == 1 or not password:
-        generate_password()
-
-    if autopassword == 0:
-        retype_password = getpass.getpass('Retype Password:')
-
-        if retype_password != password:
-            clear()
-            print("Your passwords do not match, please try again!")
-            log_down()
-
-
-def batch_add():
-    global target_users_to_add
-    target_users_to_add = int(input("Number of users to add:"))
 
 
 def success():
     global userlist
     global autopassword
 
-    print("Users Added Successfully!")
+    if not userlist:
+        print("No users were added.")
+        return
 
-    if autopassword == 1:
-        print("Username and Auto Generated Passwords Are:")
-        print(userlist)
-    else:
-        print("Users that were successfully added:", userlist)
+    print("User Added Successfully!")
+    print("Username and Auto Generated Password Are:")
+    print(userlist[-2:])  # Display the last added user's credentials
 
-    print("Total Users Added:", count)
+
+def generate_username():
+    # Generate a random username, for example, a combination of 'user' and a random number
+    return 'user' + str(random.randint(1000, 9999))
 
 
 def generate_password():
-    global count
-    global password
-
-    alphabet = "abcdefghijklmnopqrstuvwxyz"
+    alphabet = string.ascii_lowercase
     pw_length = 8
     my_pw = ""
 
-    for i in range(pw_length):
-        next_index = random.randrange(len(alphabet))
-        my_pw += alphabet[next_index]
+    while True:
+        my_pw = ''.join(random.choice(alphabet) for i in range(pw_length))
 
-    for i in range(random.randrange(1, 3)):
-        replace_index = random.randrange(len(my_pw) // 2)
-        my_pw = my_pw[:replace_index] + str(random.randrange(10)) + my_pw[replace_index + 1:]
+        if not any(char.isupper() for char in my_pw):
+            continue
 
-    for i in range(random.randrange(1, 3)):
-        replace_index = random.randrange(len(my_pw) // 2, len(my_pw))
-        password = my_pw[:replace_index] + my_pw[replace_index].upper() + my_pw[replace_index + 1:]
+        if not any(char.isdigit() for char in my_pw):
+            continue
+
+        break
+
+    return my_pw
 
 
 clear()
-batch_add()
-clear()
-
-while count < target_users_to_add:
-    log_down()
-    create()
-
+create()
 success()
